@@ -37,20 +37,6 @@ if ftp!="":
 else:
     st.write("Please enter your ftp in the box; otherwise, graph will not display.")
 
-
-# # ##  Obtain FTP value from user to determine workout zones in graph
-# # set up try / except loop:
-# n = 1
-# while n < 3: 
-#     try:
-#         ftp = int(input("Enter FTP in watts (whole numbers only):  "))
-#         print(f"\nYour FTP has been recorded as {ftp} watts.")
-#         break
-#     except ValueError:
-#         n += 1
-#         print("\nYour FTP value cannot contain letters, be left blank, or be entered as a decimal value. \n")
-
-
 # ## Have user enter file name / upload file
 # The code for importing .fit files and converting to a pandas dataframe is from http://johannesjacob.com/analyze-your-cycling-data-python/.
 # To install the python packages, type 'pip install pandas numpy fitparse matplotlib tqdm' on the command line.
