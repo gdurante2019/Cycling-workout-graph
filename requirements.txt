@@ -5,5 +5,3 @@ pandas
 streamlit
 tqdm
 matplotlib
-PyQt6
-PySide6
