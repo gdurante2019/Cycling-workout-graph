@@ -12,6 +12,7 @@ import numpy as np
 import streamlit as st
 import matplotlib
 import matplotlib.pyplot as plt
+import PyQt6
 from tqdm import tqdm
 from smooth import smooth
 from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
