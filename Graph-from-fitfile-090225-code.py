@@ -185,7 +185,7 @@ hr, max_hr, max_hr_idx, max_hr_timestamp = max_hr_stamp(workout_data)
 # ## Plot data
 
 import matplotlib 
-matplotlib.use('qtagg')
+# matplotlib.use('qtagg')
 
 if ftp != None:
     figsize = (28, 12)    
