@@ -22,28 +22,38 @@ from matplotlib.text import Annotation
 # ## Title of Streamlit app
 st.title('Workout Graph in Zwift Style')
 
-# ##  Obtain FTP value from user to determine workout zones in graph
-# set up try / except loop:
-n = 1
-while n < 3: 
-    try:
-        ftp = int(input("Enter FTP in watts (whole numbers only):  "))
-        print(f"\nYour FTP has been recorded as {ftp} watts.")
-        break
-    except ValueError:
-        n += 1
-        print("\nYour FTP value cannot contain letters, be left blank, or be entered as a decimal value. \n")
+# Import .fit file and convert to pandas dataframe
+uploaded_file = st.file_uploader("Upload your workout file (.fit file format only):  ", type=['fit'], key='fitfile')
+if uploaded_file:
+    st.write(f'You uploaded file "{uploaded_file.name}"')
+else: 
+    st.write("Please upload your workout file to generate graph.")
+
+# Enter FTP value to determine workout zones in graph
+ftp = st.text_input(label="Enter FTP in watts (whole numbers only):  ", max_chars=3, key='ftp')
+if ftp!="":
+    st.write(f"\nYour FTP has been recorded as {ftp} watts.")
+    ftp = float(ftp)
+else:
+    st.write("Please enter your ftp in the box; otherwise, graph will not display.")
+
+
+# # ##  Obtain FTP value from user to determine workout zones in graph
+# # set up try / except loop:
+# n = 1
+# while n < 3: 
+#     try:
+#         ftp = int(input("Enter FTP in watts (whole numbers only):  "))
+#         print(f"\nYour FTP has been recorded as {ftp} watts.")
+#         break
+#     except ValueError:
+#         n += 1
+#         print("\nYour FTP value cannot contain letters, be left blank, or be entered as a decimal value. \n")
 
 
 # ## Have user enter file name / upload file
 # The code for importing .fit files and converting to a pandas dataframe is from http://johannesjacob.com/analyze-your-cycling-data-python/.
 # To install the python packages, type 'pip install pandas numpy fitparse matplotlib tqdm' on the command line.
-
-filename = input("Type filename, including .fit extension:  ")
-# 2021-10-05-10-54-32.fit
-
-fitfile = FitFile(filename)
-
 
 # #### From Johannes Jacob's blog post (http://johannesjacob.com/2019/03/13/analyze-your-cycling-data-python/):  
 # _"Now we are ready to import the workout file and transform the data into a 
