@@ -79,7 +79,7 @@ def parse_fitfile(uploaded_file):
 
     return df
 
-df = parse_fitfile(filename)
+df = parse_fitfile(uploaded_file)
 column_list = list(df.columns)
 
 # ##  Remove unnecessary columns and remove null values
