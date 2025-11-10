@@ -2,11 +2,7 @@
 # coding: utf-8
 
 # # Recreating Zwift ride powerplot
-
 # ## Import .fit file and convert to pandas dataframe
-
-# In[2]:
-
 
 import os
 import datetime
@@ -24,18 +20,9 @@ from matplotlib.text import Annotation
 
 
 # ## Title of Streamlit app
-
-# In[3]:
-
-
 st.title('Workout Graph in Zwift Style')
 
-
 # ##  Obtain FTP value from user to determine workout zones in graph
-
-# In[4]:
-
-
 # set up try / except loop:
 n = 1
 while n < 3: 
@@ -49,13 +36,8 @@ while n < 3:
 
 
 # ## Have user enter file name / upload file
-
 # The code for importing .fit files and converting to a pandas dataframe is from http://johannesjacob.com/analyze-your-cycling-data-python/.
 # To install the python packages, type 'pip install pandas numpy fitparse matplotlib tqdm' on the command line.
-# 
-
-# In[5]:
-
 
 filename = input("Type filename, including .fit extension:  ")
 # 2021-10-05-10-54-32.fit
@@ -68,9 +50,6 @@ fitfile = FitFile(filename)
 # pandas dataframe. Unfortunately we have to use an ugly hack with this "while" 
 # loop to avoid timing issues. Then we are looping through the file, append 
 # the records to a list and convert the list to a pandas dataframe."_
-
-# In[6]:
-
 
 def parse_fitfile(uploaded_file):
     fitfile = FitFile(uploaded_file)
@@ -90,24 +69,10 @@ def parse_fitfile(uploaded_file):
 
     return df
 
-
-# In[7]:
-
-
 df = parse_fitfile(filename)
-
-
-# In[8]:
-
-
 column_list = list(df.columns)
 
-
 # ##  Remove unnecessary columns and remove null values
-
-# In[9]:
-
-
 def df_clean_trim(df):
     # Set up new dataframe with only necessary columns
     # First, check to see if heart rate data is present
@@ -128,17 +93,9 @@ def df_clean_trim(df):
     return df_cleaned
 
 
-# In[10]:
-
-
 df_cleaned = df_clean_trim(df)
 
-
 # ## Get date of workout and length of workout in seconds/minutes 
-
-# In[11]:
-
-
 def workout_date_time_freq(df):
     # Get date
     df1 = df.copy()
@@ -161,18 +118,9 @@ def workout_date_time_freq(df):
 
     return date_str, num_datapoints, workout_minutes, rec_freq, freq
 
-
-# In[12]:
-
-
 date_str, num_datapoints, workout_minutes, rec_freq, freq = workout_date_time_freq(df_cleaned)
 
-
 # ## Convert dataframe to NumPy array
-
-# In[13]:
-
-
 def convert_to_arr(df_cleaned):
     workout_data = df_cleaned.to_records(index=False)
     watts = workout_data['watts']
@@ -191,39 +139,17 @@ def convert_to_arr(df_cleaned):
 
     return watts, max_watts, minutes, max_pwr_timestamp, hr, max_hr, max_hr_timestamp
 
-
-# In[14]:
-
-
 workout_data = df_cleaned.to_records(index=False)
-
-
-# In[15]:
-
 
 watts = workout_data['watts']
 
-
-# In[16]:
-
-
 max_watts = int(max(watts))
 
-
 # ## Smooth power curve
-
-# In[17]:
-
-
 # using helper function 'smooth.py'
-
 watts_smoothed = smooth(watts, window_len=10)
 
-
 # ##  Convert workout x-axis time values to minutes
-
-# In[18]:
-
 
 # converting recording data into minutes  
 # freq represents how many rows of data are contained in 1 minute of workout time
@@ -232,42 +158,17 @@ watts_smoothed = smooth(watts, window_len=10)
 
 freq = 60 / rec_freq
 
-
-# In[19]:
-
-
 minutes = workout_data['data_points']/freq
 
-
 # ## Find maximum power value and time stamp
-
-# In[20]:
-
-
 max_pwr_idx = np.argmax(workout_data['watts'])
-
-
-# In[21]:
-
-
 max_pwr_timestamp = round(minutes[max_pwr_idx], ndigits=3)
-
-
-# In[22]:
-
-
 workout_data[max_pwr_idx]
 
-
 # ## Find maximum heart rate value and time stamp
-
 # Note:  if no heart rate data is available, this section will be skipped, as will the heart rate graphing section
 
-# In[23]:
-
-
 # Function to find max HR & time stamp, if applicable
-
 def max_hr_stamp(workout_data):
     if ('heart_rate' in column_list):
         print('File contains HR data')
@@ -283,17 +184,9 @@ def max_hr_stamp(workout_data):
         max_hr_timestamp = 0
     return hr, max_hr, max_hr_idx, max_hr_timestamp
 
-
-# In[24]:
-
-
 hr, max_hr, max_hr_idx, max_hr_timestamp = max_hr_stamp(workout_data)
 
-
 # ## Plot data
-
-# In[25]:
-
 
 import matplotlib 
 matplotlib.use('qtagg')
@@ -364,9 +257,6 @@ else:
     print(f"If you wish to try again, please have your FTP value ready and then reload this page.")
 
 
-# In[26]:
-
-
 import matplotlib 
 # matplotlib.use('qtagg')
 
@@ -434,16 +324,4 @@ if ftp != None:
 else:
     print(f"\nThe graph cannot be drawn; no valid FTP was provided.")
     print(f"If you wish to try again, please have your FTP value ready and then reload this page.")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
