@@ -37,7 +37,7 @@ st.title('Workout Graph in Zwift Style')
 
 
 # set up try / except loop:
-n = 01
+n = 1
 while n < 3: 
     try:
         ftp = int(input("Enter FTP in watts (whole numbers only):  "))
