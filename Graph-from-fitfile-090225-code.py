@@ -10,10 +10,7 @@ from fitparse import FitFile    # https://github.com/dtcooper/python-fitparse
 import pandas as pd
 import numpy as np
 import streamlit as st
-# import matplotlib
-# import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('QtAgg') # or 'Qt5Agg' if using PyQt5
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from smooth import smooth
