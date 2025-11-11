@@ -73,14 +73,14 @@ def df_clean_trim(df):
         # Insert a column 'data_points' to enable selection of max hr and watts by index
         df_cleaned.insert(loc=0, column='data_points', value=np.arange(len(df)))
         df_cleaned.rename(columns = {'power':'watts'}, inplace = True)
-        df_cleaned['watts'].fillna(0, inplace=True)
-        df_cleaned['heart_rate'].fillna(0, inplace=True)
+        df_cleaned.fillna({'watts': 0}, inplace=True)
+        df_cleaned.fillna({'heart_rate': 0}, inplace=True)
     else:
         df_cleaned = df[['power', 'timestamp']].copy()
         # Insert a column 'data_points' to enable selection of max hr and watts by index
         df_cleaned.insert(loc=0, column='data_points', value=np.arange(len(df)))
         df_cleaned.rename(columns = {'power':'watts'}, inplace = True)
-        df_cleaned['watts'].fillna(0, inplace=True)
+        df_cleaned.fillna({'watts': 0}, inplace=True)
     return df_cleaned
 
 def workout_date_time_freq(df_cleaned):
